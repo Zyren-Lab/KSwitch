@@ -1,0 +1,46 @@
+# ---------------------------------
+# 1. STANDART KOTLIN & IDE FAYLLARI
+# ---------------------------------
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code (Siz ishlatyapsiz)
+.vscode/
+
+# Mac OS & Windows tizim fayllari
+.DS_Store
+Thumbs.db
+
+# ---------------------------------
+# 2. KSWITCH MAXSUS (ENG MUHIMI) 🚨
+# ---------------------------------
+
+# Backup qilingan fayllar ASLO yuklanmasin:
+backup/
+backups/
+MyBackups/
+
+# Vaqtincha yaratilgan CSV, VCF yoki JSON fayllar:
+*.vcf
+*.csv
+
+# Manifest fayllari (Agar namuna sifatida kerak bo'lsa, '!' olib tashlang):
+# backup_manifest.json
+
+# Shaxsiy kalitlar va lokal sozlamalar:
+local.properties
+key.properties
+secret.properties
+
+# Log fayllar:
+*.log
