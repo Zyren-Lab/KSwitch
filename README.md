@@ -51,13 +51,13 @@ Unlike other tools, KSwitch is **Agentless**: it works purely via ADB (Android D
 - **📱 Installed Apps:** Automatically extracts and backs up `.apk` (installer) files of user apps.
 - **📦 Archives & Docs:** Smart detection for `.zip`, `.rar`, `.pdf`, `.docx` and more.
 - **👥 Contacts:** Exports phone contacts to standard `.vcf` format.
-- **📞 Call Logs:** Dumps call history to `.xml` for safekeeping (Backup only).
+- **📞 Call Logs:** Dumps call history to `.json` for safekeeping (Backup only).
 
 # Screenshots
 <p align="center">
-  <img src="screenshots/dashboard.png" width="350" style="border-radius: 10px;"/>
-    <img src="screenshots/scan.png" width="350" style="border-radius: 10px;"/>
-    <img src="screenshots/manager.png" width="350" style="border-radius: 10px;"/>
+  <img src="screenshots/dashboard.png" width="370" style="border-radius: 10px;"/>
+    <img src="screenshots/scan.png" width="370" style="border-radius: 10px;"/>
+    <img src="screenshots/manager.png" width="370" style="border-radius: 10px;"/>
 </p>
 
 # 🔮 Roadmap & Future Plans
