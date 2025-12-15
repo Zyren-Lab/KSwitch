@@ -87,10 +87,11 @@ Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab
 - `sudo rpm -i kswitch-1.0.0-1.x86_64.rpm`
 
 ### Prerequisites
-Enable Developer Options on your phone.
-Enable USB Debugging.
-Connect via USB and allow the RSA fingerprint on your phone screen.
-Licensing
+- Enable Developer Options on your phone.
+- Enable USB Debugging.
+- Connect via USB and allow the RSA fingerprint on your phone screen.
+
+### Licensing
 This project is licensed under the terms of the GNU General Public License v3.0.
 You are free to use, modify, and distribute this software, provided that any derivative works remain open-source under the same license.
 
