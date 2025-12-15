@@ -126,7 +126,21 @@ object ManifestManager {
         
         try {
             val content = manifestFile.readText()
-            parseManifest(content)
+            val manifest = parseManifest(content)
+            
+            // Validate sizes against local files to fix "0b" issues
+            val updatedCategories = manifest.categories.mapValues { (_, items) ->
+                items.map { item ->
+                    val file = File(backupDir, item.localPath)
+                    if (file.exists() && item.size == 0L) {
+                        item.copy(size = file.length())
+                    } else {
+                        item
+                    }
+                }
+            }
+            
+            manifest.copy(categories = updatedCategories)
         } catch (e: Exception) {
             println("Failed to read manifest: ${e.message}")
             null

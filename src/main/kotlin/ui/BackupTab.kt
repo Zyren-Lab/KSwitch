@@ -34,49 +34,55 @@ fun BackupTab(
     onCategoryToggle: (Category, Boolean) -> Unit,
     onAllFilesToggle: (Boolean) -> Unit
 ) {
+    // File categories that are controlled by "All Files"
+    val fileCategories = listOf(Category.IMAGES, Category.VIDEOS, Category.AUDIO, 
+                                 Category.ARCHIVES, Category.DOCS, Category.OTHERS)
+    
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
         if (!isConnected) {
             Spacer(Modifier.weight(1f))
-            Text("Connect your Android device via USB", fontSize = 18.sp, color = AppColors.TextGray)
+            Text("Connect your Android device via USB", fontSize = 18.sp, color = AppColors.TextSecondary)
             Spacer(Modifier.weight(1f))
             return
         }
 
         if (isTransferring) {
             Spacer(Modifier.weight(1f))
-            Text("Backing Up Data...", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AppColors.TextDark)
+            Text("Backing Up Data...", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
             Spacer(Modifier.height(16.dp))
             LinearProgressIndicator(
                 progress = progress,
                 modifier = Modifier.fillMaxWidth(0.6f).height(8.dp),
-                color = AppColors.SamsungBlue
+                color = AppColors.Primary,
+                backgroundColor = AppColors.SurfaceLight
             )
             Spacer(Modifier.height(8.dp))
-            Text(progressText, color = AppColors.TextGray)
+            Text(progressText, color = AppColors.TextSecondary)
             Spacer(Modifier.weight(1f))
             return
         }
 
         if (isScanning) {
             Spacer(Modifier.weight(1f))
-            Text("Scanning Device", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AppColors.TextDark)
+            Text("Scanning Device", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
             Spacer(Modifier.height(24.dp))
             LinearProgressIndicator(
                 progress = scanProgress,
                 modifier = Modifier.fillMaxWidth(0.6f).height(8.dp),
-                color = AppColors.SamsungBlue
+                color = AppColors.Primary,
+                backgroundColor = AppColors.SurfaceLight
             )
             Spacer(Modifier.height(12.dp))
-            Text("${(scanProgress * 100).toInt()}%", fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = AppColors.TextDark)
+            Text("${(scanProgress * 100).toInt()}%", fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = AppColors.TextPrimary)
             Spacer(Modifier.height(8.dp))
-            Text(scanStatus, color = AppColors.TextGray, fontSize = 14.sp)
+            Text(scanStatus, color = AppColors.TextSecondary, fontSize = 14.sp)
             Spacer(Modifier.height(24.dp))
             Button(
                 onClick = onCancelScan,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
+                colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.Error),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier.width(150.dp).height(45.dp)
             ) {
@@ -88,11 +94,11 @@ fun BackupTab(
 
         if (categoryData.isEmpty()) {
             Spacer(Modifier.weight(1f))
-            Text("Scan your device to begin", fontSize = 18.sp, color = AppColors.TextDark)
+            Text("Scan your device to begin", fontSize = 18.sp, color = AppColors.TextPrimary)
             Spacer(Modifier.height(24.dp))
             Button(
                 onClick = onScanClick,
-                colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.SamsungBlue),
+                colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.Primary),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier.width(200.dp).height(50.dp)
             ) {
@@ -100,22 +106,21 @@ fun BackupTab(
             }
             Spacer(Modifier.weight(1f))
         } else {
-            Text("Select items to backup:", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = AppColors.TextDark)
+            Text("Select items to backup:", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = AppColors.TextPrimary)
             Spacer(Modifier.height(16.dp))
             
-            // Scrollable category list
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(0.85f)
                     .verticalScroll(rememberScrollState())
             ) {
-                // ALL FILES option (special)
+                // ALL FILES - Master checkbox
                 Card(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
-                    elevation = 2.dp,
+                    elevation = 4.dp,
                     shape = RoundedCornerShape(8.dp),
-                    backgroundColor = if (allFilesSelected) AppColors.SamsungBlue.copy(alpha = 0.1f) else Color.White
+                    backgroundColor = if (allFilesSelected) AppColors.Primary.copy(alpha = 0.2f) else AppColors.Surface
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -124,43 +129,59 @@ fun BackupTab(
                         Checkbox(
                             checked = allFilesSelected,
                             onCheckedChange = { onAllFilesToggle(it) },
-                            colors = CheckboxDefaults.colors(checkedColor = AppColors.SamsungBlue),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = AppColors.Primary,
+                                uncheckedColor = AppColors.TextSecondary
+                            ),
                             enabled = scanComplete
                         )
                         Spacer(Modifier.width(8.dp))
-                        Icon(Icons.Default.SelectAll, "All Files", tint = AppColors.SamsungBlue)
+                        Icon(Icons.Default.SelectAll, "All Files", tint = AppColors.Accent)
                         Spacer(Modifier.width(8.dp))
                         Column {
-                            Text("All Files", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AppColors.TextDark)
-                            Text("Entire storage (except Android/data)", fontSize = 12.sp, color = AppColors.TextGray)
+                            Text("All Files (recommended)", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
+                            Text("Entire storage (except Android/data)", fontSize = 12.sp, color = AppColors.TextSecondary)
                         }
                     }
                 }
                 
-                Divider()
+                Divider(color = AppColors.Divider)
                 Spacer(Modifier.height(12.dp))
                 
-                // File categories
-                Text("📁 Files", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = AppColors.TextGray)
+                // File categories - disabled when All Files is checked
+                Text("📁 Files", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = AppColors.TextSecondary)
                 categoryData.filter { !it.isSystemData && it.count > 0 }.forEach { data ->
-                    CategoryCheckbox(data, data.category in selectedCategories, scanComplete && !allFilesSelected, onCategoryToggle)
+                    val isChecked = if (allFilesSelected) true else data.category in selectedCategories
+                    val isEnabled = scanComplete && !allFilesSelected
+                    
+                    CategoryCheckbox(
+                        data = data,
+                        isChecked = isChecked,
+                        enabled = isEnabled,
+                        onToggle = onCategoryToggle
+                    )
                 }
                 
                 Spacer(Modifier.height(16.dp))
-                Divider()
+                Divider(color = AppColors.Divider)
                 Spacer(Modifier.height(16.dp))
                 
-                // System data categories
-                Text("📱 System Data", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = AppColors.TextGray)
+                // System data - always independent
+                Text("📱 System Data", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = AppColors.TextSecondary)
                 categoryData.filter { it.isSystemData && it.count > 0 }.forEach { data ->
-                    CategoryCheckbox(data, data.category in selectedCategories, scanComplete, onCategoryToggle)
+                    CategoryCheckbox(
+                        data = data,
+                        isChecked = data.category in selectedCategories,
+                        enabled = scanComplete,
+                        onToggle = onCategoryToggle
+                    )
                 }
             }
 
             Spacer(Modifier.height(16.dp))
             Button(
                 onClick = onBackupClick,
-                colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.SamsungBlue),
+                colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.Primary),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier.width(200.dp).height(50.dp),
                 enabled = scanComplete && (selectedCategories.isNotEmpty() || allFilesSelected)
@@ -170,7 +191,7 @@ fun BackupTab(
             
             if (!scanComplete) {
                 Spacer(Modifier.height(8.dp))
-                Text("Scan must complete 100%", color = Color.Red, fontSize = 12.sp)
+                Text("Scan must complete 100%", color = AppColors.Error, fontSize = 12.sp)
             }
         }
     }
@@ -189,19 +210,29 @@ fun CategoryCheckbox(
     ) {
         Checkbox(
             checked = isChecked,
-            onCheckedChange = { onToggle(data.category, it) },
-            colors = CheckboxDefaults.colors(checkedColor = AppColors.SamsungBlue),
+            onCheckedChange = { if (enabled) onToggle(data.category, it) },
+            colors = CheckboxDefaults.colors(
+                checkedColor = AppColors.Primary,
+                uncheckedColor = AppColors.TextSecondary,
+                disabledColor = if (isChecked) AppColors.Primary.copy(alpha = 0.6f) else AppColors.TextDisabled,
+                checkmarkColor = Color.White
+            ),
             enabled = enabled
         )
         Spacer(Modifier.width(8.dp))
         Text(
             "${data.displayName} (${CategoryManager.formatCount(data.count)})",
             fontSize = 15.sp,
-            color = if (enabled) AppColors.TextDark else AppColors.TextGray
+            // Readable even when disabled if checked
+            color = when {
+                enabled -> AppColors.TextPrimary
+                isChecked -> AppColors.TextDisabledReadable
+                else -> AppColors.TextDisabled
+            }
         )
         if (data.experimental) {
             Spacer(Modifier.width(8.dp))
-            Icon(Icons.Default.Warning, "Experimental", tint = AppColors.WarningOrange, modifier = Modifier.size(16.dp))
+            Icon(Icons.Default.Warning, "Experimental", tint = AppColors.Warning, modifier = Modifier.size(16.dp))
         }
     }
 }
