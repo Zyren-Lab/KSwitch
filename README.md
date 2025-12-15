@@ -121,3 +121,5 @@ A special thanks to the open-source community:
 JetBrains for the amazing Kotlin & Compose Multiplatform.
 Google for the Android Debug Bridge documentation.
 Linux Community for the inspiration and support.
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/Zyren-Lab/KSwitch.svg?variant=adaptive)](https://starchart.cc/Zyren-Lab/KSwitch)
