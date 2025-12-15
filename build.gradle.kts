@@ -28,13 +28,13 @@ compose {
             mainClass = "MainKt"
             nativeDistributions {
                 targetFormats(TargetFormat.Deb, TargetFormat.Rpm)
-                packageName = "kswitch"
+                packageName = "KSwitch"
                 packageVersion = "1.0.0"
                 description = "KSwitch - Android Backup Tool"
                 vendor = "KSwitch"
                 
                 linux {
-                    appCategory = "Utility"
+                    appCategory = "System"
                     iconFile.set(project.file("src/main/resources/icon.png"))
                     shortcut = true
                 }

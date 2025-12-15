@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
@@ -547,7 +548,8 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = AppConfig.APP_NAME,
-        icon = painterResource("icon.png")
+        icon = painterResource("icon.png"),
+        state = rememberWindowState(width = 1100.dp, height = 800.dp)
     ) {
         App()
     }

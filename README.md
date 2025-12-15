@@ -1,67 +1,114 @@
-📂 KSwitch (Beta)
-The Native "Smart Switch" Alternative for Linux
-![Kotlin](https://img.shields.io/badge/Kotlin-1.9-purple) ![Platform](https://img.shields.io/badge/Platform-Linux-black) ![License](https://img.shields.io/badge/License-GPLv3-blue) ![Status](https://img.shields.io/badge/Status-Beta-orange)
+<h1 align="center">KSwitch</h1>
 
-KSwitch is an open-source, native desktop application designed to bridge the gap between Android devices and Linux desktops. It functions as a lightweight, privacy-focused alternative to proprietary backup tools, allowing you to backup media, documents, and apps without installing any agent APKs on your phone.
+<p align="center">
+  <a href="https://github.com/Zyren-Lab/KSwitch/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/Zyren-Lab/KSwitch?style=for-the-badge&logo=github"/>
+  </a>
+  <a href="https://github.com/Zyren-Lab/KSwitch/releases">
+    <img src="https://img.shields.io/github/v/release/Zyren-Lab/KSwitch?style=for-the-badge&logo=github&color=orange" alt="Release"/>
+  </a>
+  <a href="https://kotlinlang.org/">
+    <img src="https://img.shields.io/badge/Made%20with-Kotlin-purple?style=for-the-badge&logo=kotlin" alt="Kotlin"/>
+  </a>
+  <a href="https://www.linux.org/">
+    <img src="https://img.shields.io/badge/Platform-Linux-black?style=for-the-badge&logo=linux" alt="Platform"/>
+  </a>
+  <a href="https://buymeacoffee.com/Zyren-Lab">
+    <img src="https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Donate"/>
+  </a>
+</p>
 
-Note: This project is unofficial and not affiliated with Samsung Electronics Co., Ltd.
+<p align="center">
+  <b>The Native, Open-Source Smart Switch Alternative for Linux.</b><br>
+  <i>Backup & Restore your Samsung/Android devices without Wine, VMs, or privacy concerns.</i>
+</p>
 
-✨ Features
-🐧 Linux Native: Built with Kotlin Multiplatform (Compose for Desktop). No Wine, no VMs, no heavy dependencies.
-🚀 Agentless Architecture: Works purely via ADB. No need to install a helper app on your Android device.
-📂 Smart Mirroring: Preserves the exact directory structure of your phone.
-Phone: /sdcard/DCIM/Camera/2024.jpg
-PC: ./backup/sdcard/DCIM/Camera/2024.jpg
-⚡ High-Speed Scanning: Uses direct Android ContentProvider queries instead of slow recursive scanning.
-📦 Comprehensive Backup:
-Images & Videos (Camera, WhatsApp, Telegram, etc.)
-Documents (PDF, DOCX, TXT)
-Archives (ZIP, RAR, 7Z)
-Installed Apps (Extracts .apk files automatically!)
-🌑 Dark Mode: Professional UI designed for modern Linux environments.
-📝 Manifest System: Generates a backup_manifest.json for detailed tracking of every backup session.
-📸 Screenshots
-(Please upload a screenshot of your app here. Example: ![Dashboard](screenshots/dashboard.png))
+<p align="center">
+  <a href="https://github.com/Zyren-Lab/KSwitch/issues">🐛 Report Bug</a>
+  •
+  <a href="https://github.com/Zyren-Lab/KSwitch/discussions">🚀 Discussions</a>
+</p>
 
-📥 Installation
-Prerequisites
-You need adb installed on your system.
+# What is KSwitch?
+**KSwitch** is a native desktop application designed to bridge the gap between Android devices and Linux desktops. While Windows and macOS users enjoy official tools like Samsung Smart Switch™, Linux users are often left behind.
 
-# Debian / Ubuntu / Mint
-sudo apt install adb
+KSwitch solves this by providing a **GUI-based**, lightweight, and privacy-focused backup solution built with **Kotlin Compose Multiplatform**.
 
-# Fedora
-sudo dnf install android-tools
+Unlike other tools, KSwitch is **Agentless**: it works purely via ADB (Android Debug Bridge) and does not require installing any suspicious APKs on your phone. It uses advanced internal queries to replicate the "Smart Switch" experience — categorizing your data, preserving directory structures, and backing up installed applications.
 
-# Arch Linux
-sudo pacman -S android-tools
-Install KSwitch
-Download the latest .deb or .rpm file from the Releases Page.
+# Features
 
-Debian/Ubuntu:
+### Core Capabilities:
+- **🐧 Linux Native:** Built for KDE/GNOME. No Wine, No Electron, No Heavy VMs.
+- **⚡ Smart Scanning Engine:** Uses direct `ContentProvider` queries (like the official tool) to find media in milliseconds, skipping recursive folder scanning.
+- **🔌 Agentless Architecture:** Just enable USB Debugging. No root required.
+- **📂 Structure Preservation:** Mirrors your phone's directory tree exactly on your PC for easy manual access.
+- **📝 Manifest System:** Generates a `backup_manifest.json` for every session, tracking every file transfer for reliability.
+- **🌗 Dark Mode:** Professional UI designed for modern Linux environments.
 
-sudo dpkg -i kswitch_1.0.0_amd64.deb
-Fedora/RedHat:
+### Backup & Restore Support:
+- **🖼️ Media:** Images, Videos, and Music (Categorized).
+- **📱 Installed Apps:** Automatically extracts and backs up `.apk` (installer) files of user apps.
+- **📦 Archives & Docs:** Smart detection for `.zip`, `.rar`, `.pdf`, `.docx` and more.
+- **👥 Contacts:** Exports phone contacts to standard `.vcf` format.
+- **📞 Call Logs:** Dumps call history to `.xml` for safekeeping (Backup only).
 
-sudo rpm -i kswitch-1.0.0.x86_64.rpm
-🚀 How to Use
-Enable USB Debugging on your Android phone (Settings > Developer Options).
-Connect your phone to your PC via USB.
-Open KSwitch.
-Click "Scan Device". Accept the RSA prompt on your phone screen if asked.
-Select the categories you want to backup (Images, Apps, etc.).
-Click "Start Backup".
-Enjoy your coffee ☕ while KSwitch does the work.
-⚠️ Limitations (v1.0)
-Contacts & Call Logs: Currently supported for Backup Only (Saved as VCF/XML). Direct restore to phone is restricted by Android security policies without a helper app.
-App Data: Backs up the Application Installer (.apk) only. Does not backup internal app data (login sessions, game saves) as this requires Root access.
-☕ Support the Development
-I built this tool because I was tired of struggling with Android backups on Linux. If KSwitch saved you time or kept your data safe, consider supporting ZyrenLab.
+# Screenshots
+<p align="center">
+  <img src="screenshots/dashboard.png" width="350" style="border-radius: 10px;"/>
+    <img src="screenshots/scan.png" width="350" style="border-radius: 10px;"/>
+    <img src="screenshots/manager.png" width="350" style="border-radius: 10px;"/>
+</p>
 
-<a href="https://www.buymeacoffee.com/ZyrenLab" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+# 🔮 Roadmap & Future Plans
+KSwitch is just getting started! Since the project is built with **Kotlin Multiplatform**, expanding to other OSs is the next logical step.
 
-⚖️ License
-This project is licensed under the GNU General Public License v3.0.
-You are free to use, study, modify, and distribute this software, provided that any derivative works are also open-source.
+Here is what I am working on:
+- [ ] **Cross-Platform Support:** Native versions for **Windows** and **macOS**.
+- [ ] **Wireless Transfer:** Backup over Wi-Fi (no cable needed).
+- [ ] **UI/UX Overhaul:** More fluid animations and deeper customization.
+- [ ] **Incremental Backup:** Backup only new or changed files to save time.
 
-Copyright (C) 2024 ZyrenLab
+> **Note:** Porting to other platforms and adding complex features takes time and resources. Your support accelerates this process!
+
+# Installation
+
+### Debian / Ubuntu / Linux Mint and others
+Download the latest `.deb` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
+
+- `sudo apt update`
+- `sudo apt install adb`
+- `sudo dpkg -i kswitch_1.0.0-1_amd64.deb`
+
+### Fedora / RedHat / CentOS and others
+Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
+
+- `sudo dnf install android-tools`
+- `sudo rpm -i kswitch-1.0.0-1.x86_64.rpm`
+
+### Prerequisites
+Enable Developer Options on your phone.
+Enable USB Debugging.
+Connect via USB and allow the RSA fingerprint on your phone screen.
+Licensing
+This project is licensed under the terms of the GNU General Public License v3.0.
+You are free to use, modify, and distribute this software, provided that any derivative works remain open-source under the same license.
+
+External dependencies are used under their respective licenses:
+
+Kotlin: Apache 2.0
+Compose Multiplatform: Apache 2.0
+ADB (Android Debug Bridge): Apache 2.0 (Google)
+Support the Development
+KSwitch is developed by a solo developer to make the ecosystem better for everyone.
+Building native tools for Linux (and soon Windows/Mac) requires significant time and effort.
+
+If you want to see the Windows/Mac versions sooner, or if this tool saved your data, consider buying me a coffee! It keeps the code flowing. ☕
+
+<a href="https://buymeacoffee.com/Zyren-Lab"> <img src="https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" height="50"> </a>
+Credits
+A special thanks to the open-source community:
+
+JetBrains for the amazing Kotlin & Compose Multiplatform.
+Google for the Android Debug Bridge documentation.
+Linux Community for the inspiration and support.
