@@ -13,7 +13,7 @@
   <a href="https://www.linux.org/">
     <img src="https://img.shields.io/badge/Platform-Linux-black?style=for-the-badge&logo=linux" alt="Platform"/>
   </a>
-  <a href="https://buymeacoffee.com/Zyren-Lab">
+  <a href="https://buymeacoffee.com/ZyrenLab">
     <img src="https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Donate"/>
   </a>
 </p>
@@ -51,13 +51,13 @@ Unlike other tools, KSwitch is **Agentless**: it works purely via ADB (Android D
 - **📱 Installed Apps:** Automatically extracts and backs up `.apk` (installer) files of user apps.
 - **📦 Archives & Docs:** Smart detection for `.zip`, `.rar`, `.pdf`, `.docx` and more.
 - **👥 Contacts:** Exports phone contacts to standard `.vcf` format.
-- **📞 Call Logs:** Dumps call history to `.json` for safekeeping (Backup only).
+- **📞 Call Logs:** Dumps call history to `.xml` for safekeeping (Backup only).
 
 # Screenshots
 <p align="center">
-  <img src="screenshots/dashboard.png" width="370" style="border-radius: 10px;"/>
-    <img src="screenshots/scan.png" width="370" style="border-radius: 10px;"/>
-    <img src="screenshots/manager.png" width="370" style="border-radius: 10px;"/>
+  <img src="screenshots/dashboard.png" width="350" style="border-radius: 10px;"/>
+    <img src="screenshots/scan.png" width="350" style="border-radius: 10px;"/>
+    <img src="screenshots/manager.png" width="350" style="border-radius: 10px;"/>
 </p>
 
 # 🔮 Roadmap & Future Plans
@@ -87,28 +87,35 @@ Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab
 - `sudo rpm -i kswitch-1.0.0-1.x86_64.rpm`
 
 ### Prerequisites
-- Enable Developer Options on your phone.
-- Enable USB Debugging.
-- Connect via USB and allow the RSA fingerprint on your phone screen.
-
-### Licensing
+Enable Developer Options on your phone.
+Enable USB Debugging.
+Connect via USB and allow the RSA fingerprint on your phone screen.
+Licensing
 This project is licensed under the terms of the GNU General Public License v3.0.
 You are free to use, modify, and distribute this software, provided that any derivative works remain open-source under the same license.
 
 External dependencies are used under their respective licenses:
 
-Kotlin: Apache 2.0
-Compose Multiplatform: Apache 2.0
-ADB (Android Debug Bridge): Apache 2.0 (Google)
+- Kotlin: Apache 2.0
+- Compose Multiplatform: Apache 2.0
+- ADB (Android Debug Bridge): Apache 2.0 (Google)
+
 Support the Development
 KSwitch is developed by a solo developer to make the ecosystem better for everyone.
 Building native tools for Linux (and soon Windows/Mac) requires significant time and effort.
 
 If you want to see the Windows/Mac versions sooner, or if this tool saved your data, consider buying me a coffee! It keeps the code flowing. ☕
 
-<a href="https://buymeacoffee.com/Zyren-Lab"> <img src="https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" height="200"> </a>
+<a href="https://buymeacoffee.com/ZyrenLab"> <img src="https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" height="50"> </a>
 
-Credits
+## ⚖️ Disclaimer
+**KSwitch** is an independent, open-source project and is **not** affiliated with, endorsed by, or connected to **Samsung Electronics Co., Ltd.** in any way.
+
+"Samsung" and "Smart Switch" are registered trademarks of Samsung Electronics Co., Ltd.
+This tool is built using standard ADB (Android Debug Bridge) protocols provided by Google.
+
+
+## Credits
 A special thanks to the open-source community:
 
 JetBrains for the amazing Kotlin & Compose Multiplatform.
