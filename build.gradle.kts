@@ -28,7 +28,7 @@ compose {
             mainClass = "MainKt"
             nativeDistributions {
                 targetFormats(TargetFormat.Deb, TargetFormat.Rpm)
-                packageName = "KSwitch"
+                packageName = "kswitch"
                 packageVersion = "1.0.0"
                 description = "KSwitch - Android Backup Tool"
                 vendor = "KSwitch"
