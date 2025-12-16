@@ -132,6 +132,5 @@ JetBrains for the amazing Kotlin & Compose Multiplatform.
 Google for the Android Debug Bridge documentation.
 Linux Community for the inspiration and support.
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Zyren-Lab/KSwitch&type=date&legend=top-left)](https://www.star-history.com/#Zyren-Lab/KSwitch&type=date&legend=top-left)
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/Zyren-Lab/KSwitch.svg?background=%2314141a&axis=%23ffffff&line=%2300a400)](https://starchart.cc/Zyren-Lab/KSwitch)
