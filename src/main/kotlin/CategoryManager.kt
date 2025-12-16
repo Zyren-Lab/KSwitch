@@ -46,8 +46,8 @@ object CategoryManager {
                 displayName = when(category) {
                     Category.IMAGES -> "Images"
                     Category.VIDEOS -> "Videos"
-                    Category.AUDIO -> "Audio"
-                    Category.ARCHIVES -> "Archives (.zip, .apk)"
+                    Category.AUDIO -> "Audios"
+                    Category.ARCHIVES -> "Archives and Not Installed Apps"
                     Category.DOCS -> "Documents"
                     Category.OTHERS -> "Other Files"
                     else -> category.name

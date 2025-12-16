@@ -19,22 +19,50 @@
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
+import java.nio.file.Files
+import java.nio.file.attribute.PosixFilePermission
 import java.util.concurrent.TimeUnit
 
 object AdbClient {
+
+    // 1. ADB path
+    private val adbPath: String by lazy {
+        setupEmbeddedAdb() ?: "adb" // If embedded adb is not found, use system adb
+    }
+
+    // 2. Setup embedded ADB
+    private fun setupEmbeddedAdb(): String? {
+        return try {
+            val tempDir = File(System.getProperty("java.io.tmpdir"), "kswitch_bin")
+            tempDir.mkdirs()
+            val adbFile = File(tempDir, "adb")
+
+            if (!adbFile.exists()) {
+                val input = javaClass.getResourceAsStream("/bin/linux/adb") ?: return null
+                Files.copy(input, adbFile.toPath())
+                
+                // Set execute permission (chmod +x)
+                val perms = Files.getPosixFilePermissions(adbFile.toPath()).toMutableSet()
+                perms.add(PosixFilePermission.OWNER_EXECUTE)
+                Files.setPosixFilePermissions(adbFile.toPath(), perms)
+            }
+            adbFile.absolutePath
+        } catch (e: Exception) {
+            null // If setup fails, return null
+        }
+    }
 
     suspend fun checkDevices(): List<String> = withContext(Dispatchers.IO) {
         try {
             val output = execute("devices")
             output.lines()
-                .drop(1) // Skip "List of devices attached"
+                .drop(1)
                 .filter { it.isNotBlank() }
                 .mapNotNull { line ->
                     val parts = line.split("\t")
-                    if (parts.size >= 2 && parts[1] == "device") {
-                        parts[0]
-                    } else null
+                    if (parts.size >= 2 && parts[1] == "device") parts[0] else null
                 }
         } catch (e: Exception) {
             emptyList()
@@ -42,13 +70,14 @@ object AdbClient {
     }
 
     suspend fun execute(command: String, timeoutSeconds: Long = 60): String = withContext(Dispatchers.IO) {
-        val parts = command.split(" ").toTypedArray() // Simple split, callers should use array version for complex args
-        runProcess(listOf("adb") + parts.toList(), timeoutSeconds)
+        val parts = command.split(" ").toTypedArray()
+        // Use adbPath instead of "adb"
+        runProcess(listOf(adbPath) + parts.toList(), timeoutSeconds)
     }
     
-    // Safer version for complex arguments (quoted paths etc)
     suspend fun execute(args: List<String>, timeoutSeconds: Long = 60): String = withContext(Dispatchers.IO) {
-        runProcess(listOf("adb") + args, timeoutSeconds)
+        // Use adbPath instead of "adb"
+        runProcess(listOf(adbPath) + args, timeoutSeconds)
     }
 
     private fun runProcess(command: List<String>, timeoutSeconds: Long): String {
@@ -56,7 +85,6 @@ object AdbClient {
         processBuilder.redirectErrorStream(true) 
         
         val process = processBuilder.start()
-        
         val output = StringBuilder()
         val reader = BufferedReader(InputStreamReader(process.inputStream))
         var line: String?
@@ -72,9 +100,6 @@ object AdbClient {
             }
             
             if (process.exitValue() != 0) {
-                 // For some commands (like pm path), empty output or specific error codes might be expected, 
-                 // but generally non-zero is failure. We allow caller to parse output for soft-errors.
-                 // However, if ADB itself fails (e.g. device not found), we should probably throw.
                  if (output.toString().contains("error: device")) {
                      throw Exception("ADB Error: $output")
                  }

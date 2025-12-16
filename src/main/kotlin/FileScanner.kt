@@ -27,12 +27,37 @@ import kotlinx.coroutines.withContext
 object FileScanner {
     
     // Extension sets for classification
-    private val imageExtensions = setOf("jpg", "jpeg", "png", "gif", "bmp", "webp", "heic", "heif", "raw", "svg")
-    private val videoExtensions = setOf("mp4", "mkv", "avi", "mov", "3gp", "webm", "flv", "wmv", "m4v")
-    private val audioExtensions = setOf("mp3", "wav", "m4a", "flac", "ogg", "aac", "wma", "opus", "amr")
-    // APKs in storage go to ARCHIVES!
-    private val archiveExtensions = setOf("zip", "rar", "7z", "tar", "gz", "bz2", "xz", "apk", "apks", "xapk")
-    private val docExtensions = setOf("pdf", "doc", "docx", "txt", "xls", "xlsx", "ppt", "pptx", "odt", "ods", "csv", "rtf")
+    private val imageExtensions = setOf(
+        "jpg", "jpeg", "png", "gif", "bmp", "webp", "heic", "heif", 
+        "raw", "dng", "cr2", "nef", "arw", "tiff", "tif", "svg", "ico"
+    )
+
+    // 2. Videos
+    private val videoExtensions = setOf(
+        "mp4", "mkv", "avi", "mov", "3gp", "webm", "flv", "wmv", 
+        "m4v", "mpg", "mpeg", "ts", "vob"
+    )
+
+    // 3. Audios
+    private val audioExtensions = setOf(
+        "mp3", "wav", "m4a", "flac", "ogg", "aac", "wma", "opus", 
+        "amr", "m4b", "mid", "midi", "ac3"
+    )
+
+    // 4. Docs
+    private val docExtensions = setOf(
+        "pdf", "doc", "docx", "txt", "xls", "xlsx", "ppt", "pptx", 
+        "odt", "ods", "odp", "csv", "rtf", "epub", "mobi", 
+        "xml", "json", "html", "htm", "log", "md", "msg", "bin"
+    )
+
+    // 5. Archives
+    private val archiveExtensions = setOf(
+        // Archives
+        "zip", "rar", "7z", "tar", "gz", "bz2", "xz", "iso", "jar", "lz4", "md5", "sha1", "sha256", "sha512", "br", "dat",
+        // Android Apps
+        "apk", "apks", "xapk", "xapks", "obb" 
+    )
     
     // Regex to parse ADB output - handles paths with spaces!
     private val rowPattern = Regex("""Row:\s*\d+\s+_data=(.*?),\s*media_type=(\d+),\s*mime_type=(.*)""")
