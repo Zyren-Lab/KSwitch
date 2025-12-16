@@ -92,7 +92,7 @@ Download the latest .rpm from the Releases Page.
 
 ### Arch Linux / Manjaro (Community Maintained)
 An unofficial package is available **only for Arch-based distributions**.
-[Download KSwitch for Arch Linux](https://github.com/eldergod1800/kswitch-arch)
+[Download KSwitch for Arch Linux](https://github.com/eldergod1800/kswitch-arch/releases/)
 
 *(Thanks to @eldergod1800 for maintaining this!)*
 
