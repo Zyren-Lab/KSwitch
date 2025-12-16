@@ -71,20 +71,30 @@ Here is what I am working on:
 
 > **Note:** Porting to other platforms and adding complex features takes time and resources. Your support accelerates this process!
 
-# Installation
+# 📥 Installation
 
-### Debian / Ubuntu / Linux Mint and others
+### ✅ No Dependencies Required!
+Starting from **v1.0.1**, KSwitch comes with embedded ADB. You **do not** need to install `android-tools` or `adb` manually anymore. Just plug and play!
+
+---
+
+### Debian / Ubuntu / Linux Mint
 Download the latest `.deb` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
 
-- `sudo apt update`
-- `sudo apt install adb`
-- `sudo dpkg -i kswitch_1.0.0-1_amd64.deb`
+- `sudo dpkg -i kswitch_1.0.1-1_amd64.deb`
 
-### Fedora / RedHat / CentOS and others
-Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
+(If you see dependency errors, run sudo apt -f install to fix them)
 
-- `sudo dnf install android-tools`
-- `sudo rpm -i kswitch-1.0.0-1.x86_64.rpm`
+Fedora / RedHat / CentOS
+Download the latest .rpm from the Releases Page.
+
+- `sudo rpm -i kswitch-1.0.1-1.x86_64.rpm`
+
+### Arch Linux / Manjaro (Community Maintained)
+An unofficial package is available **only for Arch-based distributions**.
+[Download KSwitch for Arch Linux](https://github.com/eldergod1800/kswitch-arch)
+
+*(Thanks to @eldergod1800 for maintaining this!)*
 
 ### Prerequisites
 Enable Developer Options on your phone.
