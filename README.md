@@ -59,7 +59,7 @@ This is an early version of the project. You may encounter some bugs or incomple
 # Screenshots
 <p align="center">
   <img src="screenshots/dashboard.png" width="350" style="border-radius: 10px;"/>
-    <img src="screenshots/scan.png" width="350" style="border-radius: 10px;"/>
+    <img src="screenshots/home.png" width="350" style="border-radius: 10px;"/>
     <img src="screenshots/manager.png" width="350" style="border-radius: 10px;"/>
 </p>
 
