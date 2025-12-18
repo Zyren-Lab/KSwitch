@@ -35,11 +35,14 @@
 KSwitch solves this by providing a **GUI-based**, lightweight, and privacy-focused backup solution built with **Kotlin Compose Multiplatform**.
 
 Unlike other tools, KSwitch is **Agentless**: it works purely via ADB (Android Debug Bridge) and does not require installing any suspicious APKs on your phone. It uses advanced internal queries to replicate the "Smart Switch" experience — categorizing your data, preserving directory structures, and backing up installed applications.
+# ⚠️ Note 
+
+This is an early version of the project. You may encounter some bugs or incomplete features. We are actively working on improvements and fixes.
 
 # Features
 
 ### Core Capabilities:
-- **🐧 Linux Native:** Built for KDE/GNOME. No Wine, No Electron, No Heavy VMs.
+- **🐧 Linux Native:** Built for KDE/GNOME/Arch. No Wine, No Electron, No Heavy VMs.
 - **⚡ Smart Scanning Engine:** Uses direct `ContentProvider` queries (like the official tool) to find media in milliseconds, skipping recursive folder scanning.
 - **🔌 Agentless Architecture:** Just enable USB Debugging. No root required.
 - **📂 Structure Preservation:** Mirrors your phone's directory tree exactly on your PC for easy manual access.
@@ -85,8 +88,8 @@ Download the latest `.deb` from the [Releases Page](https://github.com/Zyren-Lab
 
 (If you see dependency errors, run sudo apt -f install to fix them)
 
-Fedora / RedHat / CentOS
-Download the latest .rpm from the Releases Page.
+### Fedora / RedHat / CentOS
+Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
 
 - `sudo rpm -i kswitch-1.0.1-1.x86_64.rpm`
 

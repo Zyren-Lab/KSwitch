@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.foundation.border
 import java.io.File
 
 /**
@@ -205,52 +207,125 @@ fun TopBarMenu(
     onCheckUpdates: () -> Unit,
     onDonate: () -> Unit
 ) {
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = onDismiss,
-        modifier = Modifier
-            .background(AppColors.Surface)
-            .width(200.dp)
+    MaterialTheme(
+        shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(16.dp))
     ) {
-        DropdownMenuItem(onClick = {
-            onBackupManager()
-            onDismiss()
-        }) {
-            Icon(Icons.Default.Folder, "Backup Manager", tint = AppColors.Primary, modifier = Modifier.size(20.dp))
-            Spacer(Modifier.width(12.dp))
-            Text("Backup Manager", color = AppColors.TextPrimary)
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = onDismiss,
+            modifier = Modifier
+                .background(AppColors.Surface)
+                .width(240.dp) 
+                .border(
+                    width = 1.dp,
+                    color = AppColors.Divider.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(16.dp)
+                )
+        ) {
+            Text(
+                text = "Menu",
+                color = AppColors.TextSecondary,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
+            )
+
+            // ITEM 1: Backup Manager
+            StyledMenuItem(
+                icon = Icons.Default.Folder,
+                text = "Backup Manager",
+                iconColor = AppColors.Primary,
+                onClick = {
+                    onBackupManager()
+                    onDismiss()
+                }
+            )
+
+            Divider(
+                color = AppColors.Divider.copy(alpha = 0.3f),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+
+            // ITEM 2: About
+            StyledMenuItem(
+                icon = Icons.Default.Info,
+                text = "About KSwitch",
+                onClick = {
+                    onAbout()
+                    onDismiss()
+                }
+            )
+
+            // ITEM 3: Check Updates
+            StyledMenuItem(
+                icon = Icons.Default.Update,
+                text = "Check for Updates",
+                onClick = {
+                    onCheckUpdates()
+                    onDismiss()
+                }
+            )
+
+            Divider(
+                color = AppColors.Divider.copy(alpha = 0.3f),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+
+            // ITEM 4: Donate 
+            DropdownMenuItem(
+                onClick = {
+                    onDonate()
+                    onDismiss()
+                },
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Donate",
+                    tint = Color(0xFFFF4081),
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(Modifier.width(14.dp))
+                Column {
+                    Text(
+                        text = "Support Development",
+                        color = AppColors.TextPrimary,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Text(
+                        text = "Buy me a coffee ☕",
+                        color = AppColors.TextSecondary,
+                        fontSize = 10.sp
+                    )
+                }
+            }
         }
-        
-        Divider(color = AppColors.Divider, modifier = Modifier.padding(vertical = 4.dp))
-        
-        DropdownMenuItem(onClick = {
-            onAbout()
-            onDismiss()
-        }) {
-            Icon(Icons.Default.Info, "About", tint = AppColors.TextSecondary, modifier = Modifier.size(20.dp))
-            Spacer(Modifier.width(12.dp))
-            Text("About", color = AppColors.TextPrimary)
-        }
-        
-        DropdownMenuItem(onClick = {
-            onCheckUpdates()
-            onDismiss()
-        }) {
-            Icon(Icons.Default.Update, "Updates", tint = AppColors.TextSecondary, modifier = Modifier.size(20.dp))
-            Spacer(Modifier.width(12.dp))
-            Text("Check for Updates", color = AppColors.TextPrimary)
-        }
-        
-        Divider(color = AppColors.Divider, modifier = Modifier.padding(vertical = 4.dp))
-        
-        DropdownMenuItem(onClick = {
-            onDonate()
-            onDismiss()
-        }) {
-            Icon(Icons.Default.Favorite, "Donate", tint = AppColors.TextPrimary, modifier = Modifier.size(20.dp))
-            Spacer(Modifier.width(12.dp))
-            Text("Support Development", color = AppColors.TextPrimary)
-        }
+    }
+}
+
+@Composable
+private fun StyledMenuItem(
+    icon: ImageVector,
+    text: String,
+    iconColor: Color = AppColors.TextSecondary,
+    onClick: () -> Unit
+) {
+    DropdownMenuItem(
+        onClick = onClick,
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp) 
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = text,
+            tint = iconColor,
+            modifier = Modifier.size(20.dp)
+        )
+        Spacer(Modifier.width(14.dp))
+        Text(
+            text = text,
+            color = AppColors.TextPrimary,
+            fontSize = 14.sp
+        )
     }
 }
 
