@@ -60,7 +60,7 @@ This is an early version of the project. You may encounter some bugs or incomple
 <p align="center">
   <img src="screenshots/dashboard.png" width="350" style="border-radius: 10px;"/>
     <img src="screenshots/home.png" width="350" style="border-radius: 10px;"/>
-    <img src="screenshots/manager.png" width="350" style="border-radius: 10px;"/>
+    <img src="screenshots/backup.png" width="350" style="border-radius: 10px;"/>
 </p>
 
 # 🔮 Roadmap & Future Plans
