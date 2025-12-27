@@ -84,14 +84,14 @@ Starting from **v1.0.1**, KSwitch comes with embedded ADB. You **do not** need t
 ### Debian / Ubuntu / Linux Mint
 Download the latest `.deb` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
 
-- `sudo dpkg -i kswitch_1.0.1-1_amd64.deb`
+- `sudo dpkg -i kswitch_1.0.3-1_amd64.deb`
 
 (If you see dependency errors, run sudo apt -f install to fix them)
 
 ### Fedora / RedHat / CentOS
 Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
 
-- `sudo rpm -i kswitch-1.0.1-1.x86_64.rpm`
+- `sudo rpm -i kswitch-1.0.3-1.x86_64.rpm`
 
 ### Arch Linux / Manjaro (Community Maintained)
 An unofficial package is available **only for Arch-based distributions**.
