@@ -35,7 +35,7 @@
 KSwitch solves this by providing a **GUI-based**, lightweight, and privacy-focused backup solution built with **Kotlin Compose Multiplatform**.
 
 Unlike other tools, KSwitch is **Agentless**: it works purely via ADB (Android Debug Bridge) and does not require installing any suspicious APKs on your phone. It uses advanced internal queries to replicate the "Smart Switch" experience — categorizing your data, preserving directory structures, and backing up installed applications.
-# ⚠️ Note 
+## ⚠️ Note 
 
 This is an early version of the project. You may encounter some bugs or incomplete features. We are actively working on improvements and fixes.
 
