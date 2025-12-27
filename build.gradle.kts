@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.kswitch"
-version = "1.0-SQ"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -27,14 +27,14 @@ compose {
         application {
             mainClass = "MainKt"
             nativeDistributions {
-                targetFormats(TargetFormat.Deb, TargetFormat.Rpm)
+                targetFormats(TargetFormat.Deb, TargetFormat.Rpm, TargetFormat.Exe, TargetFormat.Pkg)
                 packageName = "KSwitch"
-                packageVersion = "1.0.2"
+                packageVersion = "1.0.3"
                 description = "KSwitch - Android Backup Tool"
                 vendor = "KSwitch"
                 
                 linux {
-                    appCategory = "Development"
+                    appCategory = "Utility"
                     iconFile.set(project.file("src/main/resources/icon.png"))
                     shortcut = true
                 }

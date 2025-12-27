@@ -53,7 +53,10 @@ data class TransferableItem(
 
 data class InstalledApp(
     val packageName: String,
-    val apkPath: String
+    val apkPath: String,
+    val label: String = "", // Qo'shildi
+    val version: String = "",
+    val iconPath: String? = null
 )
 
 data class ContactEntry(

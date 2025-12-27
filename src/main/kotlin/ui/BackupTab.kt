@@ -16,21 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
  
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.filled.SelectAll
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ui.components.AppSelectionDialog
 
 @Composable
 fun BackupTab(
@@ -45,69 +55,40 @@ fun BackupTab(
     allFilesSelected: Boolean,
     progress: Float,
     progressText: String,
+    installedApps: List<InstalledApp>, // <-- YANGI: Ilovalar ro'yxati kerak
+    selectedPackageNames: Set<String>, // <-- YANGI: Tanlangan ilovalar
+    onUpdateSelectedApps: (Set<String>) -> Unit, // <-- YANGI: Update qilish funksiyasi
     onScanClick: () -> Unit,
     onCancelScan: () -> Unit,
     onBackupClick: () -> Unit,
     onCategoryToggle: (Category, Boolean) -> Unit,
     onAllFilesToggle: (Boolean) -> Unit
 ) {
-    // File categories that are controlled by "All Files"
-    val fileCategories = listOf(Category.IMAGES, Category.VIDEOS, Category.AUDIO,
-        Category.ARCHIVES, Category.DOCS, Category.OTHERS)
+    var showAppDialog by remember { mutableStateOf(false) }
+
+
+    // BackupTab ichida Dialog chaqiruvi
+    if (showAppDialog) {
+        AppSelectionDialog(
+            apps = installedApps,
+            // Agar birorta ham tanlanmagan bo'lsa (boshida), hammasini berib yuboramiz
+            selectedPackages = if (selectedPackageNames.isEmpty()) installedApps.map { it.packageName }.toSet() else selectedPackageNames,
+            onDismiss = { showAppDialog = false },
+            onConfirm = { newSelection ->
+                onUpdateSelectedApps(newSelection)
+                showAppDialog = false
+            }
+        )
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        if (!isConnected) {
-            Spacer(Modifier.weight(1f))
-            Text("Connect your Android device via USB", fontSize = 18.sp, color = AppColors.TextSecondary)
-            Spacer(Modifier.weight(1f))
-            return
-        }
+        // ... (Eski isConnected, isTransferring, isScanning qismlari o'zgarishsiz qoladi - nusxalab oling)
+        // ...
 
-        if (isTransferring) {
-            Spacer(Modifier.weight(1f))
-            Text("Backing Up Data...", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
-            Spacer(Modifier.height(16.dp))
-            LinearProgressIndicator(
-                progress = progress,
-                modifier = Modifier.fillMaxWidth(0.6f).height(8.dp),
-                color = AppColors.Primary,
-                backgroundColor = AppColors.SurfaceLight
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(progressText, color = AppColors.TextSecondary)
-            Spacer(Modifier.weight(1f))
-            return
-        }
-
-        if (isScanning) {
-            Spacer(Modifier.weight(1f))
-            Text("Scanning Device", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
-            Spacer(Modifier.height(24.dp))
-            LinearProgressIndicator(
-                progress = scanProgress,
-                modifier = Modifier.fillMaxWidth(0.6f).height(8.dp),
-                color = AppColors.Primary,
-                backgroundColor = AppColors.SurfaceLight
-            )
-            Spacer(Modifier.height(12.dp))
-            Text("${(scanProgress * 100).toInt()}%", fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = AppColors.TextPrimary)
-            Spacer(Modifier.height(8.dp))
-            Text(scanStatus, color = AppColors.TextSecondary, fontSize = 14.sp)
-            Spacer(Modifier.height(24.dp))
-            Button(
-                onClick = onCancelScan,
-                colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.Error),
-                shape = RoundedCornerShape(24.dp),
-                modifier = Modifier.width(150.dp).height(45.dp)
-            ) {
-                Text("CANCEL", color = Color.White, fontWeight = FontWeight.Bold)
-            }
-            Spacer(Modifier.weight(1f))
-            return
-        }
+        // ASOSIY RO'YXAT QISMI (O'zgargan joyi)
         if (!scanComplete) {
             Spacer(Modifier.weight(1f))
             CircularProgressIndicator(color = AppColors.Primary)
@@ -115,131 +96,169 @@ fun BackupTab(
             return
         }
 
-        Text("Select items to backup:", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = AppColors.TextPrimary)
-        Spacer(Modifier.height(16.dp))
+        Text("Select items to backup:", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
+        Spacer(Modifier.height(20.dp))
 
         Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(0.85f)
+                .fillMaxWidth(0.9f) // Biroz kengroq
                 .verticalScroll(rememberScrollState())
         ) {
-            // ALL FILES - Master checkbox
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
-                elevation = 4.dp,
-                shape = RoundedCornerShape(8.dp),
-                backgroundColor = if (allFilesSelected) AppColors.Primary.copy(alpha = 0.2f) else AppColors.Surface
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(12.dp)
-                ) {
-                    Checkbox(
-                        checked = allFilesSelected,
-                        onCheckedChange = { onAllFilesToggle(it) },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = AppColors.Primary,
-                            uncheckedColor = AppColors.TextSecondary
-                        ),
-                        enabled = scanComplete
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Icon(Icons.Default.SelectAll, "All Files", tint = AppColors.Accent)
-                    Spacer(Modifier.width(8.dp))
-                    Column {
-                        Text("All Files (recommended)", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AppColors.TextPrimary)
-                        Text("Entire storage (except Android/data)", fontSize = 12.sp, color = AppColors.TextSecondary)
-                    }
-                }
-            }
+            // 1. ALL FILES (Master Card)
+            ModernSelectionRow(
+                title = "All Files",
+                subtitle = "Entire storage (Recommended)",
+                icon = Icons.Default.Folder,
+                isChecked = allFilesSelected,
+                onToggle = { onAllFilesToggle(!allFilesSelected) }, // Butun qator bosilganda ishlaydi
+                isHeader = true
+            )
 
-            Divider(color = AppColors.Divider)
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(16.dp))
 
-            // File categories - disabled when All Files is checked
-            Text("📁 Files", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = AppColors.TextSecondary)
+            // 2. FILES (Rasmlar, Videolar...)
+            Text("FILES", style = MaterialTheme.typography.overline, color = AppColors.TextSecondary, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp))
+
             categoryData.filter { !it.isSystemData && it.count > 0 }.forEach { data ->
-                val isChecked = if (allFilesSelected) true else data.category in selectedCategories
-                val isEnabled = scanComplete && !allFilesSelected
-
-                CategoryCheckbox(
-                    data = data,
-                    isChecked = isChecked,
-                    enabled = isEnabled,
-                    onToggle = onCategoryToggle
+                ModernSelectionRow(
+                    title = data.displayName,
+                    subtitle = "${CategoryManager.formatCount(data.count)} items",
+                    icon = getIconForCategory(data.category),
+                    isChecked = if (allFilesSelected) true else data.category in selectedCategories,
+                    isEnabled = !allFilesSelected,
+                    onToggle = { onCategoryToggle(data.category, !selectedCategories.contains(data.category)) }
                 )
+                Spacer(Modifier.height(8.dp))
             }
 
             Spacer(Modifier.height(16.dp))
-            Divider(color = AppColors.Divider)
-            Spacer(Modifier.height(16.dp))
 
-            // System data - always independent
-            Text("📱 System Data", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = AppColors.TextSecondary)
+            // 3. APPS & DATA
+            Text("SYSTEM & APPS", style = MaterialTheme.typography.overline, color = AppColors.TextSecondary, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp))
+
             categoryData.filter { it.isSystemData && it.count > 0 }.forEach { data ->
-                CategoryCheckbox(
-                    data = data,
-                    isChecked = data.category in selectedCategories,
-                    enabled = scanComplete,
-                    onToggle = onCategoryToggle
+                val isAppCategory = data.category == Category.INSTALLED_APPS
+                val isChecked = data.category in selectedCategories
+
+                // Ilovalar uchun maxsus subtitle
+                val subtitle = if (isAppCategory) {
+                    if (isChecked) "${selectedPackageNames.size} apps selected" else "Select specific apps"
+                } else {
+                    "${CategoryManager.formatCount(data.count)} items"
+                }
+
+                ModernSelectionRow(
+                    title = data.displayName,
+                    subtitle = subtitle,
+                    icon = getIconForCategory(data.category),
+                    isChecked = isChecked,
+                    onToggle = { onCategoryToggle(data.category, !isChecked) },
+                    // Faqat Ilovalar uchun "Settings" tugmasini ko'rsatamiz
+                    hasSettings = isAppCategory,
+                    onSettingsClick = { showAppDialog = true }
                 )
+                Spacer(Modifier.height(8.dp))
             }
         }
+
         Spacer(Modifier.height(16.dp))
+
+        // BACKUP BUTTON
         Button(
             onClick = onBackupClick,
             colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.Primary),
-            shape = RoundedCornerShape(24.dp),
-            modifier = Modifier.width(200.dp).height(50.dp),
-            enabled = scanComplete && (selectedCategories.isNotEmpty() || allFilesSelected)
+            shape = RoundedCornerShape(50), // Smart Switch kabi dumaloq
+            modifier = Modifier.width(220.dp).height(56.dp),
+            enabled = selectedCategories.isNotEmpty() || allFilesSelected
         ) {
-            Text("BACKUP NOW", color = Color.White, fontWeight = FontWeight.Bold)
-        }
-
-        if (!scanComplete) {
-            Spacer(Modifier.height(8.dp))
-            Text("Scan must complete 100%", color = AppColors.Error, fontSize = 12.sp)
+            Text("BACKUP NOW", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
     }
 }
 
+// ZAMONAVIY QATOR DIZAYNI (Siz xohlagandek)
 @Composable
-fun CategoryCheckbox(
-    data: CategoryData,
+fun ModernSelectionRow(
+    title: String,
+    subtitle: String,
+    icon: ImageVector,
     isChecked: Boolean,
-    enabled: Boolean,
-    onToggle: (Category, Boolean) -> Unit
+    isEnabled: Boolean = true,
+    isHeader: Boolean = false,
+    hasSettings: Boolean = false,
+    onToggle: () -> Unit,
+    onSettingsClick: () -> Unit = {}
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+    val backgroundColor = if (isHeader) AppColors.Primary.copy(alpha = 0.1f) else AppColors.Surface
+    val contentColor = if (isEnabled) AppColors.TextPrimary else AppColors.TextDisabled
+
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        backgroundColor = backgroundColor,
+        elevation = 0.dp,
+        border = BorderStroke(1.dp, if (isChecked) AppColors.Primary.copy(alpha = 0.5f) else Color.Transparent),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(enabled = isEnabled) { onToggle() } // BUTUN QATOR BOSILADI!
     ) {
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = { if (enabled) onToggle(data.category, it) },
-            colors = CheckboxDefaults.colors(
-                checkedColor = AppColors.Primary,
-                uncheckedColor = AppColors.TextSecondary,
-                disabledColor = if (isChecked) AppColors.Primary.copy(alpha = 0.6f) else AppColors.TextDisabled,
-                checkmarkColor = Color.White
-            ),
-            enabled = enabled
-        )
-        Spacer(Modifier.width(8.dp))
-        Text(
-            "${data.displayName} (${CategoryManager.formatCount(data.count)})",
-            fontSize = 15.sp,
-            // Readable even when disabled if checked
-            color = when {
-                enabled -> AppColors.TextPrimary
-                isChecked -> AppColors.TextDisabledReadable
-                else -> AppColors.TextDisabled
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Icon
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(if (isChecked) AppColors.Primary else Color.Gray.copy(alpha = 0.2f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, null, tint = Color.White, modifier = Modifier.size(20.dp))
             }
-        )
-        if (data.experimental) {
-            Spacer(Modifier.width(8.dp))
-            Icon(Icons.Default.Warning, "Experimental", tint = AppColors.Warning, modifier = Modifier.size(16.dp))
+
+            Spacer(Modifier.width(16.dp))
+
+            // Texts
+            Column(modifier = Modifier.weight(1f)) {
+                Text(title, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = contentColor)
+                Text(subtitle, fontSize = 12.sp, color = if (isEnabled) AppColors.TextSecondary else AppColors.TextDisabled)
+            }
+
+            // Settings Button (Faqat Apps uchun)
+            if (hasSettings && isChecked) {
+                IconButton(onClick = onSettingsClick) {
+                    Icon(Icons.Default.Settings, "Select Apps", tint = AppColors.Primary)
+                }
+            }
+
+            // Checkbox (Clickable emas, faqat ko'rinish uchun, chunki Row o'zi clickable)
+            Checkbox(
+                checked = isChecked,
+                onCheckedChange = null, // null qo'yamiz, chunki Row boshqaradi
+                colors = CheckboxDefaults.colors(
+                    checkedColor = AppColors.Primary,
+                    checkmarkColor = Color.White,
+                    disabledColor = AppColors.TextDisabled
+                ),
+                enabled = isEnabled
+            )
         }
+    }
+}
+
+// Ikonkalar yordamchisi
+fun getIconForCategory(category: Category): ImageVector {
+    return when(category) {
+        Category.IMAGES -> Icons.Default.Image
+        Category.VIDEOS -> Icons.Default.Videocam
+        Category.AUDIO -> Icons.Default.Audiotrack
+        Category.DOCS -> Icons.Default.Description
+        Category.ARCHIVES -> Icons.Default.Archive
+        Category.INSTALLED_APPS -> Icons.Default.Apps
+        Category.CONTACTS -> Icons.Default.Contacts
+        Category.CALL_LOGS -> Icons.Default.Call
+        else -> Icons.Default.Folder
     }
 }

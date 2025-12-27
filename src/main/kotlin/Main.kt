@@ -75,6 +75,10 @@ fun MainScreen() {
     var currentScreen by remember { mutableStateOf(Screen.HOME) }
     var logs by remember { mutableStateOf(listOf<String>()) }
 
+    var showAppSelector by remember { mutableStateOf(false) }
+// Tanlangan paket nomlari (masalan: "com.telegram.messenger")
+    var selectedPackageNames by remember { mutableStateOf(setOf<String>()) }
+
     // UI state
     var showMenu by remember { mutableStateOf(false) }
     var showBackupManager by remember { mutableStateOf(false) }
@@ -333,6 +337,15 @@ fun MainScreen() {
                                             allFilesSelected = allFilesSelected,
                                             progress = progress,
                                             progressText = progressText,
+                                        installedApps = installedApps, // <-- BOG'LANDI
+                                        selectedPackageNames = selectedPackageNames, // <-- BOG'LANDI
+                                        onUpdateSelectedApps = { newSet ->
+                                            selectedPackageNames = newSet
+                                            // Agar birorta app tanlangan bo'lsa, APPS kategoriyasini ham yoqamiz
+                                            if (newSet.isNotEmpty()) {
+                                                selectedCategories = selectedCategories + Category.INSTALLED_APPS
+                                            }
+                                        },
                                             onScanClick = {
                                                 isScanning = true
                                                 scanComplete = false
