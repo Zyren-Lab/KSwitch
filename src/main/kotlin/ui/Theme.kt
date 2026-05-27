@@ -1,6 +1,6 @@
 /*
  * KSwitch - The GUI Backup Tool for Linux
- * Copyright (C) 2024-2025 ZyrenLab
+ * Copyright (C) 2025-2026 Zyren-Lab
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ object AppColors {
     var isDark = false
 
     // Primary
-    val Primary = Color(0xFF0F6BFF)       // Samsung Blue
+    val Primary = Color(0xFF0F6BFF)       //  Blue
     val PrimaryDark = Color(0xFF0A4DB8)
     val Accent = Color(0xFF00D9FF)        
     
@@ -53,8 +53,8 @@ object AppColors {
 
 // Constants
 object AppConfig {
-    const val DONATE_URL = "https://buymeacoffee.com/ZyrenLab"
-    const val VERSION = "1.0.0"
+    const val DONATE_URL = "https://buymeacoffee.com/Zyren-Lab"
+    const val VERSION = "1.1.0"
     const val APP_NAME = "KSwitch"
 }
 

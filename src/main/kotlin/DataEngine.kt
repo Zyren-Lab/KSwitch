@@ -1,6 +1,6 @@
 /*
  * KSwitch - The GUI Backup Tool for Linux
- * Copyright (C) 2024-2025 ZyrenLab
+ * Copyright (C) 2025-2026 Zyren-Lab
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

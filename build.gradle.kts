@@ -6,8 +6,8 @@ plugins {
     id("org.jetbrains.compose") version "1.7.1"
 }
 
-group = "com.kswitch"
-version = "1.0.3"
+group = "Zyren-Lab"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -29,7 +29,7 @@ compose {
             nativeDistributions {
                 targetFormats(TargetFormat.Deb, TargetFormat.Rpm, TargetFormat.Exe, TargetFormat.Pkg)
                 packageName = "KSwitch"
-                packageVersion = "1.0.3"
+                packageVersion = "1.1.0"
                 description = "KSwitch - Android Backup Tool"
                 vendor = "KSwitch"
                 
