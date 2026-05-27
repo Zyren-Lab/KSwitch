@@ -20,7 +20,7 @@
 
 <p align="center">
   <b>The Native, Open-Source Smart Switch Alternative for Linux.</b><br>
-  <i>Backup & Restore your Samsung/Android devices without Wine, VMs, or privacy concerns.</i>
+  <i>Backup & Restore your Samsung/Xiaomi/Android devices without Wine, VMs, or privacy concerns.</i>
 </p>
 
 <p align="center">
@@ -67,7 +67,7 @@ This is an early version of the project. You may encounter some bugs or incomple
 KSwitch is just getting started! Since the project is built with **Kotlin Multiplatform**, expanding to other OSs is the next logical step.
 
 Here is what I am working on:
-- [ ] **Cross-Platform Support:** Native versions for **Windows** and **macOS**.
+- [x] **Cross-Platform Support:** Native versions for **Windows**.
 - [ ] **Wireless Transfer:** Backup over Wi-Fi (no cable needed).
 - [ ] **UI/UX Overhaul:** More fluid animations and deeper customization.
 - [ ] **Incremental Backup:** Backup only new or changed files to save time.
@@ -77,21 +77,21 @@ Here is what I am working on:
 # 📥 Installation
 
 ### ✅ No Dependencies Required!
-Starting from **v1.0.1**, KSwitch comes with embedded ADB. You **do not** need to install `android-tools` or `adb` manually anymore. Just plug and play!
+KSwitch comes with embedded ADB. You **do not** need to install `android-tools` or `adb` manually anymore. Just plug and play!
 
 ---
 
 ### Debian / Ubuntu / Linux Mint
 Download the latest `.deb` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
 
-- `sudo dpkg -i kswitch_1.0.3-1_amd64.deb`
+- `sudo dpkg -i packageName.deb`
 
 (If you see dependency errors, run sudo apt -f install to fix them)
 
 ### Fedora / RedHat / CentOS
 Download the latest `.rpm` from the [Releases Page](https://github.com/Zyren-Lab/KSwitch/releases).
 
-- `sudo rpm -i kswitch-1.0.3-1.x86_64.rpm`
+- `sudo rpm -i packageName.rpm`
 
 ### Arch Linux / Manjaro (Community Maintained)
 An unofficial package is available **only for Arch-based distributions**.
