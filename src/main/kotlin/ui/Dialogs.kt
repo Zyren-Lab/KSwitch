@@ -391,11 +391,12 @@ fun AboutDialog(onDismiss: () -> Unit) {
  */
 @Composable
 fun BackupManagerScreen(
+    backupRoot: File,
     onBack: () -> Unit,
-    onLog: (String) -> Unit
+    onLog: (String) -> Unit,
+    onChangePath: (String) -> Unit = {}
 ) {
-    val backupDir = File("backup")
-    var backupInfo by remember { mutableStateOf(getBackupInfo(backupDir)) }
+    var backupInfo by remember { mutableStateOf(getBackupInfo(backupRoot)) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
     
     Column(
@@ -422,9 +423,30 @@ fun BackupManagerScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Default.Folder, "Backup", tint = AppColors.Primary, modifier = Modifier.size(48.dp))
                     Spacer(Modifier.width(16.dp))
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text("Backup Location", fontSize = 14.sp, color = AppColors.TextSecondary)
-                        Text("./backup/", fontSize = 18.sp, fontWeight = FontWeight.Medium, color = AppColors.TextPrimary)
+                        Text(backupRoot.absolutePath, fontSize = 18.sp, fontWeight = FontWeight.Medium, color = AppColors.TextPrimary)
+                    }
+                    Button(
+                        onClick = {
+                            try {
+                                javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName())
+                            } catch (e: Exception) {}
+                            val chooser = javax.swing.JFileChooser(backupRoot)
+                            chooser.fileSelectionMode = javax.swing.JFileChooser.DIRECTORIES_ONLY
+                            chooser.dialogTitle = "Select Backup Destination"
+                            val result = chooser.showOpenDialog(null)
+                            if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
+                                val selectedPath = chooser.selectedFile.absolutePath
+                                onChangePath(selectedPath)
+                                backupInfo = getBackupInfo(File(selectedPath))
+                                onLog("Backup path changed to: $selectedPath")
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.SurfaceLight),
+                        elevation = ButtonDefaults.elevation(0.dp)
+                    ) {
+                        Text("CHANGE", color = AppColors.Primary, fontWeight = FontWeight.Bold)
                     }
                 }
                 
@@ -489,8 +511,8 @@ fun BackupManagerScreen(
             text = { Text("This will permanently delete all backup data.", color = AppColors.TextSecondary) },
             confirmButton = {
                 TextButton(onClick = {
-                    backupDir.deleteRecursively()
-                    backupInfo = getBackupInfo(backupDir)
+                    backupRoot.deleteRecursively()
+                    backupInfo = getBackupInfo(backupRoot)
                     showDeleteConfirm = false
                     onLog("All backups deleted")
                 }) {

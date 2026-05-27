@@ -73,9 +73,11 @@ object FileScanner {
         
         try {
             // THE DIAMOND COMMAND
-            val command = """content query --uri content://media/external/file --projection _data:media_type:mime_type --where "media_type=1 OR media_type=2 OR media_type=3 OR mime_type LIKE 'application/%' OR mime_type LIKE 'text/%' OR _data LIKE '%.apk' OR _data LIKE '%.zip' OR _data LIKE '%.7z' OR _data LIKE '%.rar'""""
-            
-            val output = AdbClient.execute(listOf("shell", command), timeoutSeconds = 300)
+            val output = AdbClient.execute(listOf(
+                "shell", "content", "query", "--uri", "content://media/external/file", 
+                "--projection", "_data:media_type:mime_type", "--where", 
+                "media_type=1 OR media_type=2 OR media_type=3 OR mime_type LIKE 'application/%' OR mime_type LIKE 'text/%' OR _data LIKE '%.apk' OR _data LIKE '%.zip' OR _data LIKE '%.7z' OR _data LIKE '%.rar'"
+            ), timeoutSeconds = 300)
             
             output.lines().forEach { line ->
                 parseAndCategorize(line, results)

@@ -20,21 +20,23 @@ import androidx.compose.ui.graphics.Color
 
 // KSwitch Dark Theme Colors
 object AppColors {
+    var isDark = false
+
     // Primary
-    val Primary = Color(0xFF6C63FF)       // Purple accent
-    val PrimaryDark = Color(0xFF5A52D5)
-    val Accent = Color(0xFF00D9FF)        // Cyan accent
+    val Primary = Color(0xFF0F6BFF)       // Samsung Blue
+    val PrimaryDark = Color(0xFF0A4DB8)
+    val Accent = Color(0xFF00D9FF)        
     
     // Background
-    val Background = Color(0xFF121212)     // Main background
-    val Surface = Color(0xFF1E1E1E)        // Card/surface background
-    val SurfaceLight = Color(0xFF2D2D2D)   // Elevated surface
+    val Background get() = if (isDark) Color(0xFF121212) else Color(0xFFF5F7FA)
+    val Surface get() = if (isDark) Color(0xFF1E1E1E) else Color(0xFFFFFFFF)
+    val SurfaceLight get() = if (isDark) Color(0xFF2D2D2D) else Color(0xFFE8EEF5)
     
     // Text
-    val TextPrimary = Color(0xFFFFFFFF)    // White text
-    val TextSecondary = Color(0xFFB0B0B0)  // Gray text
-    val TextDisabled = Color(0xFF666666)   // Disabled text
-    val TextDisabledReadable = Color(0xFF909090) // Disabled but readable
+    val TextPrimary get() = if (isDark) Color(0xFFFFFFFF) else Color(0xFF1E1E1E)
+    val TextSecondary get() = if (isDark) Color(0xFFB0B0B0) else Color(0xFF666666)
+    val TextDisabled get() = if (isDark) Color(0xFF666666) else Color(0xFFA0A0A0)
+    val TextDisabledReadable get() = if (isDark) Color(0xFF909090) else Color(0xFF808080) 
     
     // Status colors
     val Success = Color(0xFF4CAF50)
@@ -42,8 +44,8 @@ object AppColors {
     val Error = Color(0xFFF44336)
     
     // Special
-    val Divider = Color(0xFF333333)
-    val LogBackground = Color(0xFF0A0A0A)
+    val Divider get() = if (isDark) Color(0xFF333333) else Color(0xFFE0E0E0)
+    val LogBackground get() = if (isDark) Color(0xFF0A0A0A) else Color(0xFF1E1E1E)
     val LogText = Color(0xFF00FF88)
     val DonateGold = Color(0xFFFFD700)      
     val DonateColor = Color(0xFFFD00FF)

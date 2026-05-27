@@ -35,19 +35,37 @@ object AdbClient {
     // 2. Setup embedded ADB
     private fun setupEmbeddedAdb(): String? {
         return try {
+            val isWindows = System.getProperty("os.name").lowercase().contains("win")
             val tempDir = File(System.getProperty("java.io.tmpdir"), "kswitch_bin")
             tempDir.mkdirs()
-            val adbFile = File(tempDir, "adb")
+            
+            val adbFileName = if (isWindows) "adb.exe" else "adb"
+            val adbFile = File(tempDir, adbFileName)
 
             if (!adbFile.exists()) {
-                val input = javaClass.getResourceAsStream("/bin/linux/adb") ?: return null
+                val inputPath = if (isWindows) "/bin/windows/$adbFileName" else "/bin/linux/adb"
+                val input = javaClass.getResourceAsStream(inputPath) ?: return null
                 Files.copy(input, adbFile.toPath())
                 
-                // Set execute permission (chmod +x)
-                val perms = Files.getPosixFilePermissions(adbFile.toPath()).toMutableSet()
-                perms.add(PosixFilePermission.OWNER_EXECUTE)
-                Files.setPosixFilePermissions(adbFile.toPath(), perms)
+                if (!isWindows) {
+                    val perms = Files.getPosixFilePermissions(adbFile.toPath()).toMutableSet()
+                    perms.add(PosixFilePermission.OWNER_EXECUTE)
+                    Files.setPosixFilePermissions(adbFile.toPath(), perms)
+                }
             }
+            
+            if (isWindows) {
+                listOf("AdbWinApi.dll", "AdbWinUsbApi.dll").forEach { dll ->
+                    val dllFile = File(tempDir, dll)
+                    if (!dllFile.exists()) {
+                        val dllInput = javaClass.getResourceAsStream("/bin/windows/$dll")
+                        if (dllInput != null) {
+                            Files.copy(dllInput, dllFile.toPath())
+                        }
+                    }
+                }
+            }
+            
             adbFile.absolutePath
         } catch (e: Exception) {
             null // If setup fails, return null
