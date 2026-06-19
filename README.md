@@ -13,7 +13,7 @@
   <a href="https://www.linux.org/">
     <img src="https://img.shields.io/badge/Platform-Linux-black?style=for-the-badge&logo=linux" alt="Platform"/>
   </a>
-  <a href="https://buymeacoffee.com/Zyren-Lab">
+  <a href="https://buymeacoffee.com/ZyrenLab">
     <img src="https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Donate"/>
   </a>
 </p>
@@ -119,7 +119,7 @@ Building native tools for Linux (and soon Windows/Mac) requires significant time
 
 If you want to see the Windows/Mac versions sooner, or if this tool saved your data, consider buying me a coffee! It keeps the code flowing. ☕
 
-<a href="https://buymeacoffee.com/Zyren-Lab"> <img src="https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" height="50"> </a>
+<a href="https://buymeacoffee.com/ZyrenLab"> <img src="https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow?style=for-the-badge&logo=buymeacoffee&logoColor=black" height="50"> </a>
 
 ## ⚖️ Disclaimer
 **KSwitch** is an independent, open-source project and is **not** affiliated with, endorsed by, or connected to **Samsung Electronics Co., Ltd.** in any way.
