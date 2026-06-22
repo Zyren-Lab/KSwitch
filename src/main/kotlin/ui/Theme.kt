@@ -53,7 +53,7 @@ object AppColors {
 
 // Constants
 object AppConfig {
-    const val DONATE_URL = "https://buymeacoffee.com/Zyren-Lab"
+    const val DONATE_URL = "https://buymeacoffee.com/ZyrenLab"
     const val VERSION = "1.1.0"
     const val APP_NAME = "KSwitch"
 }
